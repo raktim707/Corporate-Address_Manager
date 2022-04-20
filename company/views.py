@@ -145,29 +145,42 @@ def addContact(request, id):
             if form.is_valid():
                 email = form.data['email']
                 phone = form.data['phone']
+                # if email or phone is provided, create a contact instance for the company
                 if email or phone:
                     company.contact_set.create(email=email, phone=phone)
                     messages.success(request, 'Successfully addded new contact')
+                # if no email or phone is provided, generate error message
                 else:
                     messages.error(request, 'No contacts were provided')
                 return redirect('show_all_contact', company_id=company.id)
+    # if this is a get request, display the empty form
     else:
         form = ContactForm()
     return render(request, 'company/add_contact.html', {'form':form, 'company':company})
 
 def searchCompany(request):
+    # Retrieve the search keyword from user input
     query = request.GET.get('search')
     results = []
     count=0
     if query:
+        # if query exists, convert it to lowercase
+        # to check against company names to find a match
         query=query.lower()
         companies = Company.objects.all()
         for company in companies:
+            # convert the company names to lowercase to check against the query
             name = company.name.lower()
+            # if company name has multiple words,
+            # split it word by word to check if the query matches with any of the word
             name=name.split()
             if query in name:
+                # if query matches with a word containing in a company name
+                # append the company to result
                 results.append(company)
         count=len(results)
+
+        # create pagination with 12 company names per page
         paginator=Paginator(results, 12)
         page = request.GET.get('page')
         try:

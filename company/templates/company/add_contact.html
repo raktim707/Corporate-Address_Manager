@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="d-block p-3 bg-dark text-white">Add contact for {{company}}</div>
+
+<div style="padding-left: 20px ;background-color: rgba(89, 255, 13, 0.295);">
+    <div class="d-flex p-4">
+<form method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button type="submit" class="btn btn-secondary btn-block" style="margin-top: 8px;">Save</button>
+</form>
+</div>
+</div>
+{% endblock %}

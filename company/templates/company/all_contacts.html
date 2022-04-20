@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card" style="margin-top: 28px;">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'add_contact' company.id %}">Add contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'edit_contact' company_id=company.id %}">Edit Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'edit_company' pk=company.id %}">Edit Company</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="{% url 'delete_company' pk=company.id %}">Delete</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/">Go to Homepage</a>
+      </li>
+    </ul>
+    {% endif %}
+  </div>
+    <div class="card-body">
+      <h5 class="card-title"><b>Company:</b> {{company.name}}</h5>
+      <div class="row">
+        <div class="col-lg-2">
+          <p class="card-text"><b>Contract: </b>{{company.contract}}</p>
+      </div>
+    <div class="col">
+      <p class="card-text"><b>Address: </b>{{company.address}}</p>
+    </div>
+  </div>
+    </div>
+    <li class="list-group-item"><h5><b>Contact details</b></h5></li>
+    {% for contact in contacts %} 
+    <ul class="list-group list-group-flush">
+      {% if contact.email %}
+        <li class="list-group-item"><b>Email: </b>{{contact.email}}</li>
+      {% endif %}
+      {% if contact.phone %} 
+        <li class="list-group-item"><b>Phone: </b>{{contact.phone}}</li>
+      {% endif %}
+    </ul>
+    {% endfor %}
+  </div>
+{% endblock %}

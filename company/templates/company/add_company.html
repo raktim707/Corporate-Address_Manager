@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="col-lg-10">
+          {{form | crispy }}
+    </div>
+  
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4" style="margin-top: 8px;">Save</button>
+  </form>
+{% endblock %}
